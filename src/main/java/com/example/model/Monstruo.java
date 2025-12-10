@@ -6,12 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-enum tipoMonstruo{
-    OGRO,
-    TROLL,
-    ESPECTRO
-};
-
 @Entity
 @Table(name = "Monstruo")
 public class Monstruo {
@@ -24,7 +18,8 @@ public class Monstruo {
     private int fuerza;
     private tipoMonstruo tipo;
 
-    public Monstruo(){}
+    public Monstruo() {
+    }
 
     public Monstruo(String nombre, int vida, int fuerza, tipoMonstruo tipo) {
         this.nombre = nombre;
@@ -32,6 +27,12 @@ public class Monstruo {
         this.fuerza = fuerza;
         this.tipo = tipo;
     }
+
+    public enum tipoMonstruo {
+        OGRO,
+        TROLL,
+        ESPECTRO
+    };
 
     public int getId() {
         return id;
@@ -54,8 +55,8 @@ public class Monstruo {
     }
 
     public void setVida(int vida) {
-        if (vida<0) {
-            this.vida=0;
+        if (vida < 0) {
+            this.vida = 0;
         } else {
             this.vida = vida;
         }
@@ -77,9 +78,8 @@ public class Monstruo {
         this.tipo = tipo;
     }
 
-    public void atacar(Mago mago){
-        mago.setVida(mago.getVida()-getFuerza());
+    public void atacar(Mago mago) {
+        mago.setVida(mago.getVida() - getFuerza());
     }
-    
-    
+
 }

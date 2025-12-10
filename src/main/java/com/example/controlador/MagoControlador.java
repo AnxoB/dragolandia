@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.example.model.Bosque;
 import com.example.model.Mago;
 
 public class MagoControlador {
@@ -17,6 +18,28 @@ public class MagoControlador {
             tx.commit();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void actualizarBosque(Mago mago){
+        try (SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+             Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            session.merge(mago);
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println("Error actualizarBosque: " + e.getMessage());
+        }
+    }
+
+    public void eliminarBosque(Mago mago){
+        try (SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+             Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            session.remove(mago);
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println("Error eliminarBosque: " + e.getMessage());
         }
     }
 }

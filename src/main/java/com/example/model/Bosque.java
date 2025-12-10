@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,6 +17,8 @@ public class Bosque {
     private int id;
     private String nombre;
     private int nivelPeligro;
+    @ManyToOne
+    @JoinColumn(name = "monstruo_jefe_id")
     private Monstruo monstruoJefe;
 
     public Bosque(){}
