@@ -1,32 +1,40 @@
 package com.example.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.annotations.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Bosque")
+@Table(name = "Bosque")
 public class Bosque {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String nombre;
     private int nivelPeligro;
-    @ManyToOne
-    @JoinColumn(name = "monstruo_jefe_id")
-    private Monstruo monstruoJefe;
 
-    public Bosque(){}
+    @OneToMany(targetEntity = Monstruo.class)
+    private List<Monstruo> monstruosJefe = new ArrayList<>();
 
-    public Bosque(String nombre, int nivelPeligro, Monstruo monstruoJefe) {
+    public Bosque() {
+    }
+
+    public Bosque(String nombre, int nivelPeligro) {
         this.nombre = nombre;
         this.nivelPeligro = nivelPeligro;
-        this.monstruoJefe = monstruoJefe;
+        this.monstruosJefe = new ArrayList<>();
     }
 
     public int getId() {
@@ -53,25 +61,37 @@ public class Bosque {
         this.nivelPeligro = nivelPeligro;
     }
 
-    public Monstruo getMonstruoJefe() {
-        return monstruoJefe;
+    public List<Monstruo> getMonstruosJefe() {
+        return monstruosJefe;
     }
 
-    public void setMonstruoJefe(Monstruo monstruoJefe) {
-        this.monstruoJefe = monstruoJefe;
+    public void setMonstruoJefe(List<Monstruo> monstruosJefe) {
+        this.monstruosJefe = monstruosJefe;
     }
 
-    public void mostrarJefe(){
-        System.out.println(monstruoJefe);
+    public void mostrarJefe() {
+        if (monstruosJefe == null || monstruosJefe.isEmpty()) {
+            System.out.println("Este bosque no tiene monstruos jefe.");
+            return;
+        }
+
+        System.out.println("Monstruos jefe del bosque " + nombre + ":");
+        for (Monstruo m : monstruosJefe) {
+            System.out.println("- " + m);
+        }
     }
 
-    public void cambiarJefe(Monstruo monstruo){
-        this.monstruoJefe=monstruo;
+    public void añadirJefe(Monstruo monstruo) {
+        monstruosJefe.add(monstruo);
+    }
+
+    public void eliminarJefe(Monstruo monstruo) {
+        monstruosJefe.remove(monstruo);
     }
 
     @Override
     public String toString() {
         return "Bosque [id=" + id + ", nombre=" + nombre + ", nivelPeligro=" + nivelPeligro + ", monstruoJefe="
-                + monstruoJefe + "]";
+                + monstruosJefe + "]";
     }
 }

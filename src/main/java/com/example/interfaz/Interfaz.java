@@ -43,12 +43,31 @@ public class Interfaz {
         return new Monstruo(nombre, vida, fuerza, tipo);
     }
 
-    public Bosque crearBosque(Monstruo jefe) {
+    public Bosque crearBosque() {
         System.out.print("Nombre del bosque: ");
         String nombre = sc.nextLine();
+
         System.out.print("Nivel de peligro: ");
         int nivel = sc.nextInt();
         sc.nextLine();
-        return new Bosque(nombre, nivel, jefe);
+
+        Bosque bosque = new Bosque(nombre, nivel);
+
+        System.out.print("¿Cuántos monstruos jefe tendrá este bosque?: ");
+        int cantidad = sc.nextInt();
+        sc.nextLine();
+
+        for (int i = 0; i < cantidad; i++) {
+            System.out.println("\n--- Crear monstruo jefe #" + (i + 1) + " ---");
+            Monstruo m = crearMonstruo();
+            bosque.getMonstruosJefe().add(m);
+        }
+
+        return bosque;
     }
+
+    public Scanner getScanner() {
+        return sc;
+    }
+
 }
